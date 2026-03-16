@@ -1,0 +1,473 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Nuestro pequeño universo</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(#070b34,#1a2a6c,#2b5876);
+color:white;
+overflow-x:hidden;
+}
+
+/* CIELO */
+
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/YKY28eT.png");
+animation:starsMove 120s linear infinite;
+opacity:.5;
+z-index:-1;
+}
+
+@keyframes starsMove{
+from{background-position:0 0;}
+to{background-position:2000px 2000px;}
+}
+
+/* HEADER */
+
+header{
+text-align:center;
+padding:40px 20px 10px;
+}
+
+h1{
+font-weight:300;
+font-size:26px;
+}
+
+.distance{
+max-width:500px;
+margin:auto;
+font-size:14px;
+opacity:.85;
+}
+
+.counter{
+margin-top:6px;
+font-size:13px;
+opacity:.7;
+}
+
+.constellation{
+margin-top:12px;
+font-size:20px;
+letter-spacing:6px;
+}
+
+.introText{
+max-width:500px;
+margin:20px auto;
+padding:16px;
+background:rgba(255,255,255,0.08);
+border-radius:15px;
+line-height:1.6;
+font-size:14px;
+}
+
+.guide{
+margin-top:10px;
+}
+
+/* SOBRES */
+
+.world{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:25px;
+padding:35px 20px;
+}
+
+.envelope{
+width:120px;
+height:90px;
+background:#ffd6e7;
+border-radius:10px;
+position:relative;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.envelope:active{
+transform:scale(.95);
+}
+
+.envelope:before{
+content:"";
+position:absolute;
+top:-45px;
+left:0;
+border-left:60px solid transparent;
+border-right:60px solid transparent;
+border-bottom:45px solid #ffc2db;
+}
+
+.envelope span{
+position:absolute;
+bottom:-22px;
+width:100%;
+text-align:center;
+font-size:12px;
+color:white;
+}
+
+/* CARTAS */
+
+.page{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(#fceff5,#f2f7ff);
+display:none;
+overflow:auto;
+padding:40px 20px;
+color:#444;
+z-index:10;
+}
+
+.sunrise{
+background:linear-gradient(#ffb3c6,#ffd6a5,#fdffb6);
+}
+
+.letter{
+max-width:600px;
+margin:auto;
+background:white;
+padding:28px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+line-height:1.8;
+font-size:16px;
+}
+
+.letter h2{
+margin-top:0;
+}
+
+.back{
+text-align:center;
+margin-top:30px;
+font-size:15px;
+cursor:pointer;
+}
+
+/* CORAZONES */
+
+.heart{
+position:fixed;
+bottom:-10px;
+font-size:18px;
+animation:rise 7s linear infinite;
+}
+
+@keyframes rise{
+to{
+transform:translateY(-110vh);
+opacity:0;
+}
+}
+
+/* LLUVIA */
+
+.rain{
+position:fixed;
+top:-20px;
+width:2px;
+height:20px;
+background:white;
+opacity:.4;
+animation:rain 1s linear infinite;
+}
+
+@keyframes rain{
+to{transform:translateY(110vh)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<header>
+
+<h1>Un pequeño universo entre nosotros</h1>
+
+<div class="distance">
+Aunque estemos en lugares distintos del mundo,
+hay pensamientos que siempre encuentran la manera
+de llegar hasta la persona correcta.
+</div>
+
+<div class="counter" id="days"></div>
+
+<div class="constellation">
+✨ lea ✨
+</div>
+
+<div class="introText">
+
+<p>
+Quise crear este pequeño lugar pensando en ti.
+Un rincón al que puedes venir cuando quieras
+leer algo bonito o simplemente recordar
+que hay alguien pensando en ti.
+</p>
+
+<p class="guide">
+💌 Toca uno de los sobres.
+Cada uno guarda una carta distinta.
+</p>
+
+</div>
+
+</header>
+
+
+<div class="world">
+
+<div class="envelope" onclick="openLetter(1)">
+<span>Si hoy estás triste</span>
+</div>
+
+<div class="envelope" onclick="openLetter(2)">
+<span>Si tienes dudas</span>
+</div>
+
+<div class="envelope" onclick="openLetter(3)">
+<span>Para hacerte sonreír</span>
+</div>
+
+<div class="envelope" onclick="openLetter(4)">
+<span>Una última cosa</span>
+</div>
+
+</div>
+
+
+<!-- CARTAS -->
+
+<div class="page" id="letter1">
+<div class="letter">
+<h2>Si hoy el día se siente pesado</h2>
+<p id="text1"></p>
+<div class="back" onclick="closeLetter()">volver</div>
+</div>
+</div>
+
+
+<div class="page" id="letter2">
+<div class="letter">
+<h2>Si alguna vez dudas</h2>
+<p id="text2"></p>
+<div class="back" onclick="closeLetter()">volver</div>
+</div>
+</div>
+
+
+<div class="page sunrise" id="letter3">
+<div class="letter">
+<h2>Solo quería recordarte algo</h2>
+<p id="text3"></p>
+<div class="back" onclick="closeLetter()">volver</div>
+</div>
+</div>
+
+
+<div class="page sunrise" id="letter4">
+<div class="letter">
+<h2>Una última cosa</h2>
+<p id="text4"></p>
+<div class="back" onclick="closeLetter()">volver</div>
+</div>
+</div>
+
+
+<script>
+
+/* TEXTOS */
+
+const letters={
+
+text1:`Si hoy el día no está siendo tan bonito como debería,
+quería dejarte estas palabras aquí.
+
+A veces los días simplemente pesan un poco más
+y uno solo necesita un momento de calma.
+
+Ojalá pudiera aparecer justo en esos momentos
+y sentarme contigo un rato,
+aunque fuera solo para acompañarte en silencio.
+
+Pero incluso con la distancia,
+hay algo que siempre llega hasta ti:
+mis pensamientos.
+
+Muchas veces durante el día termino pensando en ti
+sin darme cuenta,
+y me gusta imaginar que en algún lugar
+tu día se vuelve un poquito más ligero.`,
+
+text2:`A veces la cabeza empieza a pensar demasiado.
+
+Pasa cuando el día ha sido largo
+o cuando uno está cansado.
+
+Si alguna vez te pasa algo así
+y te preguntas qué tan importante eres para mí,
+quiero que recuerdes algo muy simple.
+
+No todos los días uno conoce a alguien
+que termina ocupando un lugar tan natural
+en sus pensamientos.
+
+Contigo pasó exactamente así.
+Sin planearlo demasiado,
+simplemente empezaste a quedarte.`,
+
+text3:`Hay algo que quizá no te digo lo suficiente.
+
+Tu forma de ser tiene algo muy bonito.
+
+No hablo de cosas grandes,
+sino de esos pequeños detalles
+que hacen que alguien se vuelva especial
+sin siquiera darse cuenta.
+
+La forma en que cuentas cosas de tu día,
+cómo dices ciertas palabras,
+o cómo apareces en mis pensamientos
+cuando menos lo espero.
+
+A veces basta con recordarte
+para que mi día se sienta un poco mejor.`,
+
+text4:`Si llegaste hasta esta última carta,
+significa que recorriste todo este pequeño lugar.
+
+Y la verdad es que todo esto existe
+por una razón muy simple.
+
+Me gusta que estés en mi vida.
+
+Entre todas las coincidencias del mundo,
+me alegra mucho que nuestros caminos
+se hayan encontrado.
+
+Incluso con los kilómetros,
+hay algo muy bonito en saber
+que en algún lugar del mundo
+estás tú.`
+
+}
+
+/* ESCRITURA */
+
+function typeText(id,text){
+
+let i=0
+let speed=28
+let el=document.getElementById(id)
+
+el.innerHTML=""
+
+function typing(){
+
+if(i<text.length){
+el.innerHTML+=text.charAt(i)
+i++
+setTimeout(typing,speed)
+}
+
+}
+
+typing()
+
+}
+
+/* ABRIR CARTA */
+
+function openLetter(n){
+
+document.getElementById("letter"+n).style.display="block"
+
+typeText("text"+n,letters["text"+n])
+
+if(n==1){
+
+for(let i=0;i<40;i++){
+
+let r=document.createElement("div")
+
+r.className="rain"
+
+r.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(r)
+
+setTimeout(()=>r.remove(),2000)
+
+}
+
+}
+
+}
+
+/* CERRAR */
+
+function closeLetter(){
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+
+}
+
+/* CORAZONES */
+
+function heart(){
+
+let h=document.createElement("div")
+
+h.className="heart"
+
+h.innerHTML="♡"
+
+h.style.left=Math.random()*100+"vw"
+
+h.style.fontSize=(10+Math.random()*20)+"px"
+
+document.body.appendChild(h)
+
+setTimeout(()=>h.remove(),7000)
+
+}
+
+setInterval(heart,900)
+
+/* CONTADOR DIAS */
+
+const start=new Date("2025-04-09")
+const today=new Date()
+
+const diff=Math.floor((today-start)/(1000*60*60*24))
+
+document.getElementById("days").innerText=
+"Este pequeño lugar guarda "+diff+" días pensando en ti"
+
+</script>
+
+</body>
+</html>
+```
